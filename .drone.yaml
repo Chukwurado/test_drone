@@ -1,6 +1,7 @@
+---
 kind: pipeline
 type: kubernetes
-name: test_name
+name: default
 
 steps:
 - name: greeting
