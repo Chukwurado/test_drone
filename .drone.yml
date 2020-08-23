@@ -63,3 +63,11 @@ steps:
       - cd client
       - npm install
       - npm run test
+
+  - name: deploy
+    image: google/cloud-sdk:alpine
+    environment:
+      google_credentials:
+        from_secret: google_credentials
+    commands:
+      - kubectl apply -f k8s
