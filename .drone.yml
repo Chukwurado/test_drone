@@ -54,7 +54,7 @@
 #       - kubectl apply -f deployment.yml
 
 kind: pipeline
-type: docker
+type: kubernetes
 name: default
 
 steps:
