@@ -57,12 +57,12 @@ kind: pipeline
 name: default
 
 steps:
-  - name: test
-    image: node:12.18.1-buster
-    commands:
-      - cd client
-      - npm install
-      - npm run test
+  # - name: test
+  #   image: node:12.18.1-buster
+  #   commands:
+  #     - cd client
+  #     - npm install
+  #     - npm run test
 
   - name: deploy
     image: google/cloud-sdk:alpine
@@ -70,7 +70,9 @@ steps:
       google_credentials:
         from_secret: google_credentials
     commands:
-      - echo $(gcloud projects describe test-k8s-287319)
+      # - echo $(gcloud projects describe test-k8s-287319)
+      - echo $google_credentials > /tmp/$CI_PIPELINE_ID.json
+      - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
 
   # - name: deploy
   #   # image: nytimes/drone-gke
