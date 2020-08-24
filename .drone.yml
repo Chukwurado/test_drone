@@ -65,11 +65,17 @@ steps:
       - npm run test
 
   - name: deploy
-    # image: google/cloud-sdk:alpine
-    image: nytimes/drone-gke
+    image: google/cloud-sdk:alpine
     environment:
-      # google_credentials:
-      TOKEN:
+      google_credentials:
         from_secret: google_credentials
     commands:
-      - kubectl apply -f k8s
+      - echo $(gcloud projects describe test-k8s-287319)
+
+  # - name: deploy
+  #   # image: nytimes/drone-gke
+  #   environment:
+  #     # TOKEN:
+  #       from_secret: google_credentials
+  #   commands:
+  #     - kubectl apply -f k8s
