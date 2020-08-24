@@ -120,9 +120,9 @@ steps:
       - gcloud components install kubectl
       - gcloud container clusters get-credentials cluster-1
       - kubectl apply -f k8s
-      - kubectl set image deployments/server-deployment server="chukwurado/multi-server:${DRONE_COMMIT_SHA:0:7}"
-      - kubectl set image deployments/client-deployment client="chukwurado/multi-client:${DRONE_COMMIT_SHA:0:7}"
-      - kubectl set image deployments/worker-deployment worker="chukwurado/multi-worker:${DRONE_COMMIT_SHA:0:7}"
+      # - kubectl set image deployments/server-deployment server="chukwurado/multi-server:${DRONE_COMMIT_SHA:0:7}"
+      # - kubectl set image deployments/client-deployment client="chukwurado/multi-client:${DRONE_COMMIT_SHA:0:7}"
+      # - kubectl set image deployments/worker-deployment worker="chukwurado/multi-worker:${DRONE_COMMIT_SHA:0:7}"
 
   # - name: deploy
   #   # image: nytimes/drone-gke
