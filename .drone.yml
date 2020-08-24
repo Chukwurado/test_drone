@@ -64,6 +64,49 @@ steps:
   #     - npm install
   #     - npm run test
 
+  - name: publish-client
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      dockerfile: ./client/Dockerfile
+      context: ./client
+      repo: chukwurado/multi-client
+      tags:
+        - "latest"
+        - "${DRONE_COMMIT_SHA:0:7}"
+  
+  - name: publish-server
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      dockerfile: ./server/Dockerfile
+      context: ./server
+      repo: chukwurado/multi-server
+      tags:
+        - "latest"
+        - "${DRONE_COMMIT_SHA:0:7}"
+  
+  - name: publish-worker
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      dockerfile: ./worker/Dockerfile
+      context: ./worker
+      repo: chukwurado/multi-worker
+      tags:
+        - "latest"
+        - "${DRONE_COMMIT_SHA:0:7}"
+      
+
   - name: deploy
     image: google/cloud-sdk:alpine
     environment:
@@ -76,8 +119,10 @@ steps:
       - gcloud config set compute/zone us-central1-c
       - gcloud components install kubectl
       - gcloud container clusters get-credentials cluster-1
-      # - echo $(gcloud projects describe test-k8s-287319)
       - kubectl apply -f k8s
+      - kubectl set image deployments/server-deployment server=chukwurado/multi-server:${DRONE_COMMIT_SHA:0:7}
+      - kubectl set image deployments/client-deployment client=chukwurado/multi-client:${DRONE_COMMIT_SHA:0:7}
+      - kubectl set image deployments/worker-deployment worker=chukwurado/multi-worker:${DRONE_COMMIT_SHA:0:7}
 
   # - name: deploy
   #   # image: nytimes/drone-gke
