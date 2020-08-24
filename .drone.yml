@@ -73,6 +73,7 @@ steps:
       # - echo $(gcloud projects describe test-k8s-287319)
       - echo $google_credentials > /tmp/$CI_PIPELINE_ID.json
       - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
+      - kubectl apply -f k8s
 
   # - name: deploy
   #   # image: nytimes/drone-gke
